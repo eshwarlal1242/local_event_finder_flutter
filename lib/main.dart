@@ -1,19 +1,24 @@
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:local_event/pages/home.dart';
-import 'package:local_event/pages/splash_screen.dart';
+import 'package:local_event/pages/bottombar/profile_screen.dart';
+import 'package:local_event/pages/onboaring_screen.dart';
+import 'package:local_event/pages/signin.dart';
+import 'package:local_event/pages/signup.dart';
 import 'package:local_event/services/event_list.dart';
 
+import 'Admin/admin_screen.dart';
 import 'MapDemo.dart';
-
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'add_event.dart';
 import 'google_screen.dart';
+import 'homepages.dart';
 
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -23,50 +28,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Event Manager',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home:  SplashScreen(),
-    );
-  }
-}
+      debugShowCheckedModeBanner: false,
+      title: 'Google Maps Demo',
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+      theme: ThemeData(
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, dynamic>> events = [];
-
-  void _addEvent(String name, String category, File? image, LatLng? location) {
-    setState(() {
-      events.add({
-        'name': name,
-        'category': category,
-        'image': image,
-        'location': location,
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Event Manager')),
-      body: EventListScreen(events: events),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddEventScreen(onEventAdded: _addEvent),
-            ),
-          );
-        },
+        primarySwatch: Colors.blue,
       ),
+      home:  AddEventScreen(), // Set HomeScreen as the initial screen
     );
   }
 }

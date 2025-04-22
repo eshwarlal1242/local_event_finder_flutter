@@ -15,14 +15,11 @@ class AuthService {
   }
 
   // Sign up with email and password
-  Future<User?> signUp(String email, String password) async {
-    try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return result.user;
-    } catch (e) {
-      throw e;
-    }
+  Future<UserCredential> signUp(String email, String password) async {
+    return await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   // Password reset
